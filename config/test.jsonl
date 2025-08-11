@@ -1,13 +1,4 @@
-{"motion_type": "axis", "joint1": 90.0, "joint2": 0.0, "joint3": 0.0, "joint4": 0.0, "joint5": 0.0, "joint6": 0.0}
-
-{"motion_type": "moveL", "x": -0.75, "y": 0.0, "z": 0.55000000000000004, "roll": 0.0, "pitch": -0.0, "yaw": 90.0}
-{"motion_type": "moveL", "x": -0.75, "y": 0.0, "z": 0.5, "roll": 0.0, "pitch": -0.0, "yaw": 90.0}
-{"DO": 0, "state": "off"}
-{"motion_type": "moveL", "x": -0.75, "y": 0.0, "z": 0.55000000000000004, "roll": 0.0, "pitch": -0.0, "yaw": 90.0}
-{"motion_type": "axis", "joint1": 90.0, "joint2": 0.0, "joint3": 0.0, "joint4": 0.0, "joint5": 0.0, "joint6": 0.0}
-
 {"motion_type": "axis", "joint1": 0.0, "joint2": 0.0, "joint3": 0.0, "joint4": 0.0, "joint5": 0.0, "joint6": 0.0}
-
 {"motion_type": "moveL", "x": -0.5, "y": 1.0, "z": 0.10000000000000001, "roll": 0.0, "pitch": -0.0, "yaw": 46.396999999999998}
 {"motion_type": "moveL", "x": -0.5, "y": 1.0, "z": 0.050000000000000003, "roll": -0.0, "pitch": -0.0, "yaw": 46.396999999999998}
 {"wait_time": 2.0}
@@ -18,5 +9,4 @@
 {"motion_type": "moveL", "x": -0.5, "y": 1.0, "z": 0.055, "roll": 0.0, "pitch": -0.0, "yaw": 46.396999999999998}
 {"motion_type": "moveL", "x": -0.5, "y": 1.0, "z": 0.10000000000000001, "roll": 0.0, "pitch": -0.0, "yaw": 46.396999999999998}
 {"motion_type": "axis", "joint1": 0.0, "joint2": 0.0, "joint3": 0.0, "joint4": 0.0, "joint5": 0.0, "joint6": 0.0}
-
 {"DO": 0, "state": "on"}

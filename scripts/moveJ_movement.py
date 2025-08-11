@@ -66,7 +66,7 @@ def plane_to_movej(plane):
     """Convert a Rhino Plane to moveJ dict with meters and ZYX Euler angles (deg).
 
     - Position: mm -> m
-    - Orientation: build X/Y from Plane.ZAxis for stable frame, then RPY (deg)
+    - Orientation: use Plane.XAxis/YAxis/ZAxis directly (deconstruct plane), then RPY (deg)
     - motion_type is always "moveJ"
     """
     if rg is None:
@@ -77,7 +77,10 @@ def plane_to_movej(plane):
     y_m = origin.Y / 1000.0
     z_m = origin.Z / 1000.0
 
-    x_axis, y_axis, z_axis = _build_axes_from_z(plane.ZAxis)
+    # Deconstruct Plane: use plane's axes to preserve its rotation
+    x_axis = rg.Vector3d(plane.XAxis); x_axis.Unitize()
+    y_axis = rg.Vector3d(plane.YAxis); y_axis.Unitize()
+    z_axis = rg.Vector3d(plane.ZAxis); z_axis.Unitize()
     roll_deg, pitch_deg, yaw_deg = _compute_rpy_from_axes(x_axis, y_axis, z_axis)
 
     result = OrderedDict([
