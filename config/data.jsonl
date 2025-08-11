@@ -1,0 +1,5 @@
+{"motion_type": "axis", "joint1": 45.0, "joint2": 0.0, "joint3": 0.0, "joint4": 180.0, "joint5": 0.0, "joint6": -180.0}
+{"DO": 0, "state": "on"},
+{"motion_type": "moveJ", "x": -1.0, "y": 0.0, "z": 0.5, "roll": 0.0, "pitch": 0.0, "yaw": 90.0}
+{"wait_time": 5.0},
+{"motion_type": "moveL", "x": -1.0, "y": 0.0, "z": 0.8, "roll": 0.0, "pitch": 0.0, "yaw": 90.0}
