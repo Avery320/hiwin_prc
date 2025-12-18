@@ -49,16 +49,17 @@ def _rotation_matrix_from_rpy(roll_rad, pitch_rad, yaw_rad):
     ]
 
 
-def ros_to_plane(x_m, y_m, z_m, roll_deg, pitch_deg, yaw_deg):
+def ros_to_plane(x_m, y_m, z_m, roll_val, pitch_val, yaw_val, use_radians=False):
     """將 ROS 座標轉換為 Rhino Plane（只回傳 Plane）
 
     Args:
         x_m: X 座標 (米)
         y_m: Y 座標 (米)
         z_m: Z 座標 (米)
-        roll_deg: Roll 角度 (度)
-        pitch_deg: Pitch 角度 (度)
-        yaw_deg: Yaw 角度 (度)
+        roll_val: Roll 角度 (度或弧度，取決於 use_radians)
+        pitch_val: Pitch 角度 (度或弧度，取決於 use_radians)
+        yaw_val: Yaw 角度 (度或弧度，取決於 use_radians)
+        use_radians: 若為 True，輸入為弧度；若為 False，輸入為度數 (預設)
 
     Returns:
         Rhino.Geometry.Plane 物件
@@ -72,10 +73,15 @@ def ros_to_plane(x_m, y_m, z_m, roll_deg, pitch_deg, yaw_deg):
     z_mm = z_m * 1000.0
     origin = rg.Point3d(x_mm, y_mm, z_mm)
 
-    # 角度轉換：度 -> 弧度
-    roll_rad = math.radians(roll_deg)
-    pitch_rad = math.radians(pitch_deg)
-    yaw_rad = math.radians(yaw_deg)
+    # 角度轉換：根據 use_radians 決定是否需要轉換
+    if use_radians:
+        roll_rad = float(roll_val)
+        pitch_rad = float(pitch_val)
+        yaw_rad = float(yaw_val)
+    else:
+        roll_rad = math.radians(roll_val)
+        pitch_rad = math.radians(pitch_val)
+        yaw_rad = math.radians(yaw_val)
 
     # 計算旋轉矩陣
     R = _rotation_matrix_from_rpy(roll_rad, pitch_rad, yaw_rad)
@@ -93,9 +99,10 @@ def ros_to_plane(x_m, y_m, z_m, roll_deg, pitch_deg, yaw_deg):
     return plane
 
 
-# Grasshopper interface: two inputs
-# - pose: list/tuple [x, y, z, roll, pitch, yaw] (meters, degrees)
+# Grasshopper interface: three inputs
+# - pose: list/tuple [x, y, z, roll, pitch, yaw] (meters, degrees/radians)
 # - ros_pose: string like "[-0.5, 1.0, 0.05, 0.0, 0.0, 90.0]" (Panel), or list; takes priority over pose when both provided
+# - use_radians: bool toggle (True = radians, False = degrees, default: False)
 
 def _is_str(v):
     try:
@@ -132,6 +139,14 @@ def _coerce_any6(v):
 
 pose_vals = None
 ros_vals = None
+radians_mode = False
+
+try:
+    use_radians  # type: ignore[name-defined]
+    radians_mode = bool(use_radians)  # type: ignore[name-defined]
+except NameError:
+    pass
+
 try:
     ros_pose  # type: ignore[name-defined]
     ros_vals = _coerce_any6(ros_pose)  # type: ignore[name-defined]
@@ -146,5 +161,5 @@ except NameError:
 
 vals = ros_vals if ros_vals is not None else pose_vals
 if rg is not None and vals:
-    x_m, y_m, z_m, roll_deg, pitch_deg, yaw_deg = vals
-    plane = ros_to_plane(x_m, y_m, z_m, roll_deg, pitch_deg, yaw_deg)
+    x_m, y_m, z_m, roll_val, pitch_val, yaw_val = vals
+    plane = ros_to_plane(x_m, y_m, z_m, roll_val, pitch_val, yaw_val, radians_mode)
